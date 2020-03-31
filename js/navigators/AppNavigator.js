@@ -2,6 +2,10 @@ import { createAppContainer, createSwitchNavigator } from 'react-navigation'
 import { createStackNavigator } from 'react-navigation-stack'
 import WelcomePage from '../page/WelcomePage'
 import HomePage from '../page/HomePage'
+import DetailPage from '../page/DetailPage'
+import FetchDemoPage from '../page/FetchDemoPage'
+import AsyncstorageDemo from '../page/AsyncstorageDemo'
+import DataStoreDemoPage from '../page/DataStoreDemoPage'
 
 
 //初始化
@@ -21,7 +25,31 @@ const MainNavigator = createStackNavigator({
         navigationOptions: {
             header: null
         }
-    }
+    },
+    DetailPage: {
+        screen: DetailPage,
+        navigationOptions: {
+            // header: null
+        }
+    },
+    FetchDemoPage: {
+        screen: FetchDemoPage,
+        navigationOptions: {
+            // header: null
+        }
+    },
+    AsyncstorageDemo: {
+        screen: AsyncstorageDemo,
+        navigationOptions: {
+            // header: null
+        }
+    },
+    DataStoreDemoPage: {
+        screen: DataStoreDemoPage,
+        navigationOptions: {
+            // header: null
+        }
+    },
 })
 
 export default createAppContainer(createSwitchNavigator(

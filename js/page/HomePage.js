@@ -1,8 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet } from 'react-native'
-
-import { createBottomTabNavigator } from 'react-navigation-tabs'
-import { createAppContainer } from 'react-navigation'
+import NavigationUtil from '../navigators/NavigationUtils'
 
 import DynamicTabNavigator from "../navigators/DynamicTabNavigator";
 
@@ -12,6 +9,8 @@ export default class HomePage extends Component {
 
 
     render() {
+        //修复动态导航器 DynamicTabNavigator 中的页面无法跳转到外层导航。
+        NavigationUtil.navigation = this.props.navigation
         return <DynamicTabNavigator />
     }
 }

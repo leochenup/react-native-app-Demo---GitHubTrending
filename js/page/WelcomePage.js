@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View, Button } from 'react-native'
 import NavigationUtil from '../navigators/NavigationUtils'
 
 export default class WelcomepPage extends Component {
@@ -8,9 +8,10 @@ export default class WelcomepPage extends Component {
         this.timer = setTimeout(() => {
             //跳转到首页
             NavigationUtil.resetToHomePage(this.props)
-        }, 2000)
+        }, 500)
+
     }
-    componentWillUnmount(){
+    componentWillUnmount() {
         console.log('定时销毁')
         clearTimeout(this.timer)
     }
@@ -18,6 +19,13 @@ export default class WelcomepPage extends Component {
         return (
             <View style={styles.container}>
                 <Text>WelcomepPage</Text>
+                <Button
+                    title={'跳过'}
+                    onPress={() => {
+                        //跳转到首页
+                        NavigationUtil.resetToHomePage(this.props)
+                    }}
+                />
             </View>
         )
     }

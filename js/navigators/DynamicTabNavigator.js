@@ -12,6 +12,8 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import Entypo from 'react-native-vector-icons/Entypo'
 
+import { connect } from 'react-redux'
+
 
 /**
  * 配置页面的路由
@@ -24,9 +26,10 @@ const TABS = {
             tabBarLabel: '最热',
             tabBarIcon: ({ tintColor, focused }) => (
                 <MaterialIcons
-                    name='whatshot'
+                    name={'whatshot'}
                     size={26}
                     style={{ color: tintColor }}
+
                 />
             )
         }
@@ -37,9 +40,10 @@ const TABS = {
             tabBarLabel: '趋势',
             tabBarIcon: ({ tintColor, focused }) => (
                 <Ionicons
-                    name='md-trending-up'
+                    name={'md-trending-up'}
                     size={26}
                     style={{ color: tintColor }}
+
                 />
             )
         }
@@ -50,9 +54,10 @@ const TABS = {
             tabBarLabel: '收藏',
             tabBarIcon: ({ tintColor, focused }) => (
                 <MaterialIcons
-                    name='favorite'
+                    name={'favorite'}
                     size={26}
                     style={{ color: tintColor }}
+
                 />
             )
         }
@@ -63,9 +68,10 @@ const TABS = {
             tabBarLabel: '',
             tabBarIcon: ({ tintColor, focused }) => (
                 <Entypo
-                    name='user'
+                    name={'user'}
                     size={26}
                     style={{ color: tintColor }}
+
                 />
             )
         }
@@ -76,19 +82,25 @@ const TABS = {
 /**
  * 动态配置要显示的底部tab
  */
-export default class DynamicNavigator extends Component {
+class DynamicTabNavigator extends Component {
 
     constructor(props) {
         super(props)
-        //关闭黄色警告
+        //关闭黄色警告框
         console.disableYellowBox = true
     }
+
     _tabNavigator = () => {
+        if (this.Tabs) {
+            return this.Tabs
+        }
         const { PopularPage, TrendingPage, FavoritePage, MyPage } = TABS
         const tabs = { PopularPage, TrendingPage, FavoritePage, MyPage }
         PopularPage.navigationOptions.tabBarLabel = '最热'//动态修改tab属性
-        return createAppContainer(createBottomTabNavigator(tabs, {
-            tabBarComponent: TabBarComponent
+        return this.Tabs = createAppContainer(createBottomTabNavigator(tabs, {
+            tabBarComponent: props => {
+                return <TabBarComponent theme={this.props.theme} {...props} />
+            }
         }))
     }
 
@@ -98,27 +110,21 @@ export default class DynamicNavigator extends Component {
     }
 }
 
+
+
 /**
  * 设置 tabbar 主题颜色样式，
  */
 class TabBarComponent extends Component {
-    theme = {
-        tintColor: this.props.activeTintColor,
-        updateTime: new Date().getTime()
-    }
-
     render() {
-        console.log(this.props)
-        const { routes, index } = this.props.navigation.state
-        if (routes[index].params) {
-            const { theme } = routes[index].params
-            if (theme && theme.updateTime > this.theme.updateTime) {
-                this.theme = theme
-            }
-        }
         return <BottomTabBar
-            {...this.props}
-            activeTintColor={this.theme.tintColor || this.props.activeTintColor}
+            {...this.props}//传入原有的参数
+            activeTintColor={this.props.theme}
         />
     }
 }
+
+
+export default connect(
+    state => ({ theme: state.theme.theme })
+)(DynamicTabNavigator)

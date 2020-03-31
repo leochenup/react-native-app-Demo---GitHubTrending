@@ -10,9 +10,13 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@react-native-community/async-storage": "^1.8.1",
     "@react-native-community/masked-view": "^0.1.7",
+    "GitHubTrending": "^3.1.6",
+    "prop-types": "^15.7.2",
     "react": "16.9.0",
     "react-native": "0.61.5",
+    "react-native-easy-toast": "^1.2.0",
     "react-native-gesture-handler": "^1.6.0",
     "react-native-reanimated": "^1.7.0",
     "react-native-safe-area-context": "^0.7.3",
@@ -21,7 +25,10 @@
     "react-navigation": "^4.2.2",
     "react-navigation-drawer": "^2.4.2",
     "react-navigation-stack": "^2.2.3",
-    "react-navigation-tabs": "^2.8.2"
+    "react-navigation-tabs": "^2.8.2",
+    "react-redux": "^7.2.0",
+    "redux": "^4.0.5",
+    "redux-thunk": "^2.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.6.2",

@@ -1,21 +1,74 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, Button} from 'react-native'
+import { View, Text, StyleSheet, Button } from 'react-native'
 
-export default class MyPage extends Component {
+import { connect } from 'react-redux'
+import actions from '../action'
+import NavigationBar from '../common/NavigationBar'
+import Feather from 'react-native-vector-icons/Feather'
+import Ionicons from 'react-native-vector-icons/Ionicons'
+import { TouchableOpacity } from 'react-native-gesture-handler'
+
+const THEME_COLOR = '#1E90FF'
+
+class MyPage extends Component {
+
+    getRightButton = () => {
+        return (
+            <View style={{ flexDirection: 'row' }}>
+                <TouchableOpacity
+                    onPress={() => {
+
+                    }}>
+                    <View style={{ padding: 5, marginRight: 8 }}>
+                        <Feather
+                            name={'search'}
+                            size={24}
+                            color={'white'}
+                        />
+                    </View>
+                </TouchableOpacity>
+            </View>
+        )
+    }
+
+    getLeftButton = (callback) => {
+        return (
+            <TouchableOpacity
+                style={{ padding: 8, paddingLeft: 8 }}
+                onPress={callback}>
+                <View style={{ padding: 5, marginRight: 8 }}>
+                    <Ionicons
+                        name={'ios-arrow-back'}
+                        size={24}
+                        color={'white'}
+                    />
+                </View>
+            </TouchableOpacity>
+        )
+    }
+
     render() {
-        const { navigation } = this.props
+        let statusBar = {
+            backgroundColor: THEME_COLOR,
+            barStyle: 'light-content',
+        }
+        let navigationBar = (
+            <NavigationBar
+                title={'我的'}
+                statusBar={statusBar}
+                style={{ backgroundColor: THEME_COLOR }}
+                leftButton={this.getLeftButton()}
+                rightButton={this.getRightButton()}
+            />
+        )
         return (
             <View style={styles.container} >
+                {navigationBar}
                 <Text style={styles.welcomeText}>MyPage</Text>
                 <Button
                     title={'修改主题'}
                     onPress={() => {
-                        return navigation.setParams({
-                            theme:{
-                                tintColor: 'yellow',
-                                updateTime: new Date().getTime()
-                            }
-                        })
+                        this.props.ontThemeChange('black')
                     }}
                 />
             </View>
@@ -26,9 +79,9 @@ export default class MyPage extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#f5fcff'
+        // justifyContent: 'center',
+        // alignItems: 'center',
+        // backgroundColor: '#f5fcff'
     },
     welcomeText: {
         fontSize: 30,
@@ -37,3 +90,7 @@ const styles = StyleSheet.create({
     }
 
 })
+export default connect(
+    null,
+    { ontThemeChange: actions.ontThemeChange }
+)(MyPage)

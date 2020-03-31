@@ -1,21 +1,18 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet ,Button} from 'react-native'
+import { View, Text, StyleSheet, Button } from 'react-native'
 
-export default class FavoritePage extends Component {
+import { connect } from 'react-redux'
+import actions from '../action'
+
+class FavoritePage extends Component {
     render() {
-        const { navigation } = this.props
         return (
             <View style={styles.container} >
                 <Text style={styles.welcomeText}>FavoritePage</Text>
                 <Button
                     title={'修改主题'}
                     onPress={() => {
-                        return navigation.setParams({
-                            theme:{
-                                tintColor: 'blue',
-                                updateTime: new Date().getTime()
-                            }
-                        })
+                        this.props.ontThemeChange('green')
                     }}
                 />
             </View>
@@ -35,5 +32,10 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         margin: 10
     }
-
 })
+
+
+export default connect(
+    null,
+    { ontThemeChange: actions.ontThemeChange }
+)(FavoritePage)
