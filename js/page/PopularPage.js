@@ -91,7 +91,6 @@ class PopularTab extends Component {
         const store = this._store()
         let url = this.genFetchUrl(this.storeName, 'stars')
         if (loadMore) { //加载更多
-            console.log(loadMore, '执行加载更多')
             onLoadMorePopularData(this.storeName, ++store.pageIndex, pageSize, store.items, (e) => {
                 this.refs.toast.show(e)
             })
@@ -111,9 +110,23 @@ class PopularTab extends Component {
      * 生成列表项
      *  */
     _renderItem = (item) => {
-        return (<PopularItem item={item.item} onSelect={() => {
-            NavigationUtils.goPage(item, 'DetailPage')
-        }} />)
+
+        projectModel = {
+            item: item.item,
+            isFavorite: false
+        }
+
+        return (
+            <PopularItem
+                projectModel={projectModel}
+                onSelect={() => {
+                    NavigationUtils.goPage(item, 'DetailPage')
+                }}
+                onFavorite={(item, isFavorite) => {
+                    console.log(item, isFavorite)
+                }}
+            />
+        )
     }
 
     _store = () => {

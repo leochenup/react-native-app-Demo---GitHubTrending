@@ -1,33 +1,21 @@
 import React, { Component } from 'react'
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
+import BaseItem from '../common/BaseItem'
 
 /**
  * 接受两个props 参数
  * item ： item的数据
  * onSelect 点击响应的事件函数
  */
-export default class TrendingItem extends Component {
+export default class TrendingItem extends BaseItem {
     render() {
-        const { item } = this.props
+        const { projectModel } = this.props
+        const { item } = projectModel
         if (!item) return null
 
-        let favoriteButton = (
-            <TouchableOpacity
-                style={{ padding: 6 }}
-                onPress={() => {
-                }}
-                underlayColor={'red'}
-            >
-                <FontAwesome
-                    name='star-o'
-                    size={26}
-                    color='red'
-                />
-            </TouchableOpacity>
-        )
         let description = item.description.replace(/<\/*[0-9a-z-\s=":/._]*>/g, '')
-        console.log(item)
+
         return (
             <TouchableOpacity
                 onPress={this.props.onSelect}
@@ -48,7 +36,7 @@ export default class TrendingItem extends Component {
                                 />) : null
                             })}
                         </View>
-                        {favoriteButton}
+                        {this._favoriteIcon()}
                     </View>
                 </View>
             </TouchableOpacity>

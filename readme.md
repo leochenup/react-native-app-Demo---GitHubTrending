@@ -16,3 +16,25 @@
  ```
 
 ### webview
+
+
+### getDerivedStateFromProps
+``` javascript
+ /**
+     * 牢记：https://github.com/reactjs/rfcs/blob/master/text/0006-static-lifecycle-methods.md
+     * componentWillReceiveProps在新版React中不能再用了 props 改变就调用
+     * @param nextProps
+     * @param prevState
+     * @returns {*}
+     */
+    static getDerivedStateFromProps(nextProps, prevState) {
+        console.log('执行：getDerivedStateFromProps')
+        const isFavorite = nextProps.projectModel.isFavorite;
+        if (prevState.isFavorite !== isFavorite) {
+            return {
+                isFavorite: isFavorite,
+            };
+        }
+        return null;
+    }
+```
