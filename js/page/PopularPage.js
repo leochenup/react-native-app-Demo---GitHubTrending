@@ -111,14 +111,10 @@ class PopularTab extends Component {
      * 生成列表项
      *  */
     _renderItem = (item) => {
-        return (<PopularItem item={item.item} onSelect={() => { }} />)
+        return (<PopularItem item={item.item} onSelect={() => {
+            NavigationUtils.goPage(item, 'DetailPage')
+        }} />)
     }
-
-
-    onSelect = () => {
-
-    }
-
 
     _store = () => {
         const { popular } = this.props
@@ -232,7 +228,7 @@ const styles = StyleSheet.create({
     },
     tabStyle: {
         // minWidth: 50,
-        padding:0
+        padding: 0
     },
     indicatorStyle: {
         height: 2,
@@ -240,7 +236,7 @@ const styles = StyleSheet.create({
     },
     labelStyle: {
         fontSize: 15,
-        margin:0
+        margin: 0
         // marginTop: 6,
         // marginBottom: 6,
     },

@@ -83,7 +83,7 @@ export default class DataStore {
             } else {//获取trending数据
                 new Trending().fetchTrending(url)
                     .then((items) => {
-                        console.log('获取trending数据', items)
+                        // console.log('获取trending数据', items)
                         if (!items) throw new Error('trending:response data is null')
                         this.saveData(url, items)
                         resolve(items)

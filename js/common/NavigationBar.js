@@ -107,7 +107,9 @@ const styles = StyleSheet.create({
     },
     title: {
         fontSize: 20,
-        color: 'white'
+        color: 'white',
+        paddingLeft: 30,
+        paddingRight: 30
     },
     statusBar: {
         ...Platform.select({

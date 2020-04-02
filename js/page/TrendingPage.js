@@ -15,7 +15,7 @@ import { createMaterialTopTabNavigator } from 'react-navigation-tabs'
 import { createAppContainer } from 'react-navigation'
 
 import TrendingDialog, { TimeSpans } from '../common/TrendingDialog'
-import TimeSpan from '../model/TimeSpan'
+import NavigationUtils from '../navigators/NavigationUtils'
 import NavigationBar from '../common/NavigationBar'
 
 import actions from '../action/index'
@@ -186,14 +186,10 @@ class TrendingTab extends Component {
      * 生成列表项
      *  */
     _renderItem = (item) => {
-        return (<TrendingItem item={item.item} onSelect={() => { }} />)
+        return (<TrendingItem item={item.item} onSelect={() => {
+            NavigationUtils.goPage(item, 'DetailPage')
+        }} />)
     }
-
-
-    onSelect = () => {
-
-    }
-
 
     _store = () => {
         const { trending } = this.props
@@ -226,7 +222,6 @@ class TrendingTab extends Component {
 
     render() {
         const data = this._store()
-        console.log('render')
         return (
             <View >
                 <FlatList

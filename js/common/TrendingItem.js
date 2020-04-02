@@ -27,6 +27,7 @@ export default class TrendingItem extends Component {
             </TouchableOpacity>
         )
         let description = item.description.replace(/<\/*[0-9a-z-\s=":/._]*>/g, '')
+        console.log(item)
         return (
             <TouchableOpacity
                 onPress={this.props.onSelect}
@@ -34,6 +35,7 @@ export default class TrendingItem extends Component {
                 <View style={styles.cell_container}>
                     <Text style={styles.title}>{item.fullName}</Text>
                     <Text style={styles.description}>{description}</Text>
+                    {/* <Text style={styles.fork}>fork count: 200</Text> */}
                     <Text style={styles.fork}>fork count: {item.forkCount}</Text>
 
                     <View style={styles.row}>

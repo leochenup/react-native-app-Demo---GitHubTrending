@@ -8,6 +8,13 @@ export default class NavigationUtil {
         const { navigation } = params
         navigation.navigate('Main')
     }
+    /**
+     *  返回上一页
+     * @param {*} params 
+     */
+    static goBack(navigation) {
+        navigation.goBack()
+    }
 
     /**
      * 
@@ -19,6 +26,6 @@ export default class NavigationUtil {
         if (!navigation) {
             return console.log('NavigationUtil.navigation can not be null')
         }
-        navigation.navigate(page,{...params})
+        navigation.navigate(page, { ...params })
     }
 }
