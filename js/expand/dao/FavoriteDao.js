@@ -3,7 +3,7 @@ const FEVORIT_KEY_PREFIX = 'favorite_';
 
 export default class FavoriteDao {
     constructor(flag) {
-        this.favoritekey = FEVORIT_KEY_PREFIX + flag
+        this.favoriteKey = FEVORIT_KEY_PREFIX + flag
     }
 
     /**
@@ -12,7 +12,7 @@ export default class FavoriteDao {
      * @param {*} value  收藏的项目
      * @param {*} callback  
      */
-    saveFavoriteItem(key, value, callback) {
+    saveFavoriteItem = (key, value, callback) => {
         AsyncStorage.setItem(key, value, (error, result) => {
             if (!error) { //更新favorite的key
                 this.updateFavoriteKeys(key, true)
@@ -25,9 +25,11 @@ export default class FavoriteDao {
     * @param key
     * @param isAdd true 添加,false 删除
     * **/
-    updateFavoriteKeys(key, isAdd) {
+    updateFavoriteKeys = (key, isAdd) => {
         AsyncStorage.getItem(this.favoriteKey, (error, result) => {
+
             if (!error) { //如果没错
+
                 let favoriteKeys = [];
                 if (result) {
                     favoriteKeys = JSON.parse(result);
@@ -47,7 +49,7 @@ export default class FavoriteDao {
      * 获取收藏的Repository对应的key
      * @return {Promise}
      */
-    getFavoriteKeys() {
+    getFavoriteKeys = () => {
         return new Promise((resolve, reject) => {
             AsyncStorage.getItem(this.favoriteKey, (error, result) => {
                 if (!error) {
@@ -67,7 +69,7 @@ export default class FavoriteDao {
      * 取消收藏,移除已经收藏的项目
      * @param key 项目 id
      */
-    removeFavoriteItem(key) {
+    removeFavoriteItem = (key) => {
         AsyncStorage.removeItem(key, (error, result) => {
             if (!error) {
                 this.updateFavoriteKeys(key, false);
@@ -79,7 +81,7 @@ export default class FavoriteDao {
      * 获取所有收藏的项目
      * @return {Promise}
      */
-    getAllItems() {
+    getAllItems = () => {
         return new Promise((resolve, reject) => {
             this.getFavoriteKeys()
                 .then((keys) => {

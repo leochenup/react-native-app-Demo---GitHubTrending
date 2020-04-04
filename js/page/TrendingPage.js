@@ -23,11 +23,16 @@ import { connect } from 'react-redux'
 import TrendingItem from '../common/TrendingItem'
 import Toast from 'react-native-easy-toast'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
+import FavoriteDao from '../expand/dao/FavoriteDao'
+import { FLAG_STORAGE } from '../expand/dao/DataStore'
+import FavoriteUtil from "../util/FavoriteUtil";
 // !!!
 // import HTMLView from 'react-native-htmlview'
 
 const EVENT_TYPE_TIME_SPAN_CHANGE = 'EVENT_TYPE_TIME_SPAN_CHANGE'
 const THEME_COLOR = '#1E90FF'
+const favoriteDao = new FavoriteDao(FLAG_STORAGE.flag_trending)
+
 
 export default class TrendingPage extends Component {
 
@@ -167,11 +172,11 @@ class TrendingTab extends Component {
         let url = this.genFetchUrl(this.storeName, this.timeSpan.searchText)
         if (loadMore) { //加载更多
             console.log(loadMore, '执行加载更多')
-            onLoadMoreTrendingData(this.storeName, ++store.pageIndex, pageSize, store.items, (e) => {
+            onLoadMoreTrendingData(this.storeName, ++store.pageIndex, pageSize, store.items, favoriteDao, (e) => {
                 this.refs.toast.show(e)
             })
         } else { //普通加载，不加载更多
-            onLoadTrendingData(this.storeName, url, pageSize)
+            onLoadTrendingData(this.storeName, url, pageSize, favoriteDao)
         }
     }
 
@@ -186,9 +191,15 @@ class TrendingTab extends Component {
      * 生成列表项
      *  */
     _renderItem = (item) => {
-        return (<TrendingItem item={item.item} onSelect={() => {
-            NavigationUtils.goPage(item, 'DetailPage')
-        }} />)
+        return (
+            <TrendingItem
+                projectModel={item.item}
+                onSelect={() => NavigationUtils.goPage(item.item, 'DetailPage')}
+                onFavorite={(item, isFavorite) => {
+                    return FavoriteUtil.onFavorite(favoriteDao, item, isFavorite, FLAG_STORAGE.flag_trending)
+                }}
+            />
+        )
     }
 
     _store = () => {
@@ -228,7 +239,7 @@ class TrendingTab extends Component {
                     style={{ width: '100%', height: '100%' }}
                     data={data.projectModes}
                     renderItem={this._renderItem}
-                    keyExtractor={(item) => "" + (item.id || item.fullName)}
+                    keyExtractor={(item) => "" + (item?.item?.id || item?.item?.fullName)}
                     refreshControl={//刷新控制
                         <RefreshControl //下拉刷新的组件
                             title='loading'

@@ -17,6 +17,7 @@ export default class DetailPage extends Component {
         super(props)
         this.params = this.props.navigation.state.params
         const { item } = this.params
+        console.log(item)
         this.url = item.html_url || baseUrl + item.url
         this.state = {
             title: item.fullName || item.full_name,
@@ -25,11 +26,13 @@ export default class DetailPage extends Component {
         }
         //android物理返回键的处理
         this.backPress = new BackPressComponent({ backPress: this.onBackPress })
+
     }
 
     //android物理返回键的处理
     componentDidMount() {
         this.backPress.componentDidMount()
+        
     }
     //android物理返回键的处理
     componentWillUnmount() {
@@ -105,6 +108,7 @@ export default class DetailPage extends Component {
                     onNavigationStateChange={e => this.onNavigationStateChange(e)}
                     source={{ uri: this.state.url }}
                 />
+
             </View>
         )
     }

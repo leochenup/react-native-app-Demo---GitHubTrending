@@ -29,7 +29,6 @@ export default class BaseItem extends Component {
      * @returns {*}
      */
     static getDerivedStateFromProps(nextProps, prevState) {
-        console.log('执行：getDerivedStateFromProps')
         const isFavorite = nextProps.projectModel.isFavorite;
         if (prevState.isFavorite !== isFavorite) {
             return {

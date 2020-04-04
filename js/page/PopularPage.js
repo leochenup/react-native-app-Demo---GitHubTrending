@@ -11,13 +11,30 @@ import actions from '../action/index'
 import { connect } from 'react-redux'
 import PopularItem from '../common/PopularItem'
 import Toast from 'react-native-easy-toast'
+import FavoriteDao from '../expand/dao/FavoriteDao'
+import { FLAG_STORAGE } from '../expand/dao/DataStore'
+import FavoriteUtil from "../util/FavoriteUtil";
+import AsyncStorage from '@react-native-community/async-storage';
 
 
 const THEME_COLOR = '#1E90FF'
+const favoriteDao = new FavoriteDao(FLAG_STORAGE.flag_popular)
+
+
 
 export default class PopularPage extends Component {
 
     tabNames = ['Java', 'Android', 'iOS', 'React', 'React Native', 'PHP'];
+
+    // componentDidMount() {
+    //     AsyncStorage.getItem('testkey', (error, result) => {
+    //         if (!error) {
+    //             console.log(result)
+    //         } else {
+    //             console.log(error)
+    //         }
+    //     });
+    // }
 
     _genTabs = () => {
         const tabs = {};
@@ -91,11 +108,11 @@ class PopularTab extends Component {
         const store = this._store()
         let url = this.genFetchUrl(this.storeName, 'stars')
         if (loadMore) { //加载更多
-            onLoadMorePopularData(this.storeName, ++store.pageIndex, pageSize, store.items, (e) => {
+            onLoadMorePopularData(this.storeName, ++store.pageIndex, pageSize, store.items, favoriteDao, (e) => {
                 this.refs.toast.show(e)
             })
         } else { //普通加载，不加载更多
-            onLoadPopularData(this.storeName, url, pageSize)
+            onLoadPopularData(this.storeName, url, pageSize, favoriteDao)
         }
     }
 
@@ -111,19 +128,12 @@ class PopularTab extends Component {
      *  */
     _renderItem = (item) => {
 
-        projectModel = {
-            item: item.item,
-            isFavorite: false
-        }
-
         return (
             <PopularItem
-                projectModel={projectModel}
-                onSelect={() => {
-                    NavigationUtils.goPage(item, 'DetailPage')
-                }}
+                projectModel={item.item}
+                onSelect={() => NavigationUtils.goPage(item.item, 'DetailPage')}
                 onFavorite={(item, isFavorite) => {
-                    console.log(item, isFavorite)
+                    return FavoriteUtil.onFavorite(favoriteDao, item, isFavorite, FLAG_STORAGE.flag_popular)
                 }}
             />
         )
@@ -167,7 +177,7 @@ class PopularTab extends Component {
                     style={{ width: '100%', height: '100%' }}
                     data={data.projectModes}
                     renderItem={this._renderItem}
-                    keyExtractor={(item) => "" + item.id}
+                    keyExtractor={(item) => "" + item.item.id}
                     refreshControl={//刷新控制
                         <RefreshControl //下拉刷新的组件
                             title='loading'
